@@ -4,17 +4,40 @@ import axios from "axios"
 const basisUrl = (out_city, in_city, date) =>
    `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${out_city}&` +
    `destinationLocationCode=${in_city}&departureDate=${date}&adults=1`
-const token = "Bearer 5a9mdJnmepFxBQ0GnrNAaAXICAy7"
+const token = "Bearer TCj5BTATS5kSUOcHtxj4I0SYoYc1"
 
 export const useStore = defineStore("tickets", {
    state: () => ({
       tickets: [],
    }),
+   getters: {
+      tickets_light() {
+         const tickets = []
+         for (let ticket of this.tickets) {
+            tickets.push({
+               company: ticket.itineraries[0].segments[0].operating.carrierCode,
+               start: ticket.itineraries[0].segments[0].departure.at.replace("T", " "),
+               end: ticket.itineraries[0].segments[ticket.itineraries[0].segments.length - 1].arrival.at.replace(
+                  "T",
+                  " "
+               ),
+               duration: ticket.itineraries[0].duration.replace(/PT/g, ""),
+               price: ticket.price.total,
+               currency: ticket.price.currency,
+               transplants: ticket.itineraries[0].segments.length,
+            })
+         }
+         return tickets
+      },
+   },
    actions: {
-      async getTickets(out_city, in_city, date) {
+      async getTickets({ out_city, in_city, date }) {
+         console.log(out_city, in_city, date)
+         this.tickets = []
          this.tickets = await axios
             .get(basisUrl(out_city, in_city, date), { headers: { Authorization: token } })
             .then((result) => result.data.data)
+         console.log(JSON.stringify(this.tickets[0], null, 3))
       },
    },
 })
