@@ -15,7 +15,7 @@ const { ticket } = defineProps(["ticket"])
 
 <style scoped>
 .ticket {
-   width: 400px;
+   width: 250px;
    flex-shrink: 0;
    border: 1px solid black;
    margin: 5px;
