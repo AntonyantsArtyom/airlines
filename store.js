@@ -1,10 +1,11 @@
 import { defineStore } from "pinia"
 import axios from "axios"
+import timeDifferent from "./src/utils/timeDifferent"
 
 const basisUrl = (out_city, in_city, date) =>
    `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${out_city}&` +
    `destinationLocationCode=${in_city}&departureDate=${date}&adults=1`
-const token = "Bearer TCj5BTATS5kSUOcHtxj4I0SYoYc1"
+const token = "Bearer IFfsigms1tFPFP1HoGG7RKycvCdk"
 
 export const useStore = defineStore("tickets", {
    state: () => ({
@@ -38,6 +39,14 @@ export const useStore = defineStore("tickets", {
             .get(basisUrl(out_city, in_city, date), { headers: { Authorization: token } })
             .then((result) => result.data.data)
          console.log(JSON.stringify(this.tickets[0], null, 3))
+      },
+      async sortTickets(type) {
+         timeDifferent
+         if (type == "price") this.tickets = this.tickets.sort((a, b) => a.price.total - b.price.total)
+         if (type == "time")
+            this.tickets = this.tickets.sort((a, b) =>
+               timeDifferent(a.itineraries[0].duration, b.itineraries[0].duration)
+            )
       },
    },
 })

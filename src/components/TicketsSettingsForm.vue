@@ -17,9 +17,11 @@ const options = reactive({ out_city: null, in_city: null, date: null })
 
 <style scoped>
 .ticketsSettingsForm {
+   border: 1px solid black;
+   padding: 5px;
    margin: auto;
    display: grid;
-   width: 300px;
+   width: 200px;
 }
 input[name="date"] {
    width: 100px;

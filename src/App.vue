@@ -1,23 +1,29 @@
 <script setup>
 import TicketsSettingsForm from "./components/TicketsSettingsForm.vue"
+import SortingsForm from "./components/SortingsForm.vue"
 import Ticket from "./components/Ticket.vue"
-import { storeToRefs } from "pinia"
 import { useStore } from "../store"
+import { computed } from "vue"
+
 const store = useStore()
-const { tickets_light } = storeToRefs(store)
+const tickets = computed(() => store.tickets_light)
 </script>
 
 <template>
    <TicketsSettingsForm @finish="(options) => store.getTickets(options)" />
+   <SortingsForm />
    <div class="tickets">
-      <Ticket v-for="ticket in tickets_light" :key="ticket.id" :ticket="ticket" />
+      <Ticket v-for="ticket in tickets" :key="ticket.id" :ticket="ticket" />
    </div>
 </template>
 
 <style scoped>
 .tickets {
    display: flex;
-   justify-content: center;
+   justify-content: right;
    flex-wrap: wrap;
+
+   max-height: 470px;
+   overflow-y: scroll;
 }
 </style>
