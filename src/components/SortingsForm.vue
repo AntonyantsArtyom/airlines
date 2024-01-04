@@ -5,11 +5,21 @@ const type = ref(null)
 </script>
 
 <template>
-   <button @click="type = $emit('price') || 'price'" :class="{ active: type == 'price' }">сначала дешевые</button>
-   <button @click="type = $emit('time') || 'time'" :class="{ active: type == 'time' }">сначала быстрые</button>
+   <div class="sortings">
+      <button @click="type = $emit('price') || 'price'" :class="{ active: type == 'price' }">сначала дешевые</button>
+      <button @click="type = $emit('time') || 'time'" :class="{ active: type == 'time' }">сначала быстрые</button>
+   </div>
 </template>
 
 <style scoped>
+.sortings {
+   padding: 5px 0px;
+   display: grid;
+   width: 200px;
+}
+.sortings > button {
+   height: 45px;
+}
 .active {
    background: #80a6ff;
 }

@@ -4,7 +4,7 @@ import axios from "axios"
 const basisUrl = (out_city, in_city, date) =>
    `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${out_city}&` +
    `destinationLocationCode=${in_city}&departureDate=${date}&adults=1`
-const token = "Bearer Lvebd5dYAaFWLrpUsIQ01tulNPxs"
+const token = "Bearer 4ulJq23aszzgIJ4TNJUlzXzjG87j"
 
 export const useStore = defineStore("tickets", {
    state: () => ({
@@ -13,11 +13,12 @@ export const useStore = defineStore("tickets", {
    getters: {
       tickets_light() {
          return (sorting, filter) => {
+            console.log(filter)
             let full_info = JSON.parse(JSON.stringify(this.tickets))
             const tickets = []
 
+            full_info = full_info.filter((a) => a.itineraries[0].segments.length - 1 <= filter)
             if (!!sorting) full_info = sorting(full_info)
-            if (!!filter) full_info = filter(full_info)
 
             for (let ticket of full_info) {
                tickets.push({
@@ -30,7 +31,7 @@ export const useStore = defineStore("tickets", {
                   duration: ticket.itineraries[0].duration.replace(/PT/g, ""),
                   price: ticket.price.total,
                   currency: ticket.price.currency,
-                  transplants: ticket.itineraries[0].segments.length,
+                  transplants: ticket.itineraries[0].segments.length - 1,
                })
             }
             return tickets

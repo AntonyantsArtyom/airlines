@@ -11,7 +11,7 @@ const options = reactive({ out_city: null, in_city: null, date: null })
       <input name="in" v-model="options.in_city" />
       <p>дата отправки</p>
       <input type="date" name="date" v-model="options.date" />
-      <button>найти билеты</button>
+      <button class="button">найти билеты</button>
    </form>
 </template>
 
@@ -19,11 +19,14 @@ const options = reactive({ out_city: null, in_city: null, date: null })
 .ticketsSettingsForm {
    border: 1px solid black;
    padding: 5px;
-   margin: auto;
    display: grid;
    width: 200px;
 }
 input[name="date"] {
    width: 100px;
+}
+.button {
+   margin-top: 5px;
+   height: 30px;
 }
 </style>
