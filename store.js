@@ -4,7 +4,7 @@ import axios from "axios"
 const basisUrl = (out_city, in_city, date) =>
    `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${out_city}&` +
    `destinationLocationCode=${in_city}&departureDate=${date}&adults=1`
-const token = "Bearer VaGOQu091hXZKOOr6nGFs2SWMw53"
+const token = "Bearer huDMWO04fcHsAIeQvYxHMg84q9XU"
 
 export const useStore = defineStore("tickets", {
    state: () => ({
@@ -22,17 +22,16 @@ export const useStore = defineStore("tickets", {
 
             for (let ticket of full_info) {
                tickets.push({
-                  id: ticket.id,
-                  company: ticket.itineraries[0].segments[0].operating.carrierCode,
-                  start: ticket.itineraries[0].segments[0].departure.at.replace("T", " "),
-                  end: ticket.itineraries[0].segments[ticket.itineraries[0].segments.length - 1].arrival.at.replace(
-                     "T",
-                     " "
-                  ),
-                  duration: ticket.itineraries[0].duration.replace(/PT/g, ""),
-                  price: ticket.price.total,
-                  currency: ticket.price.currency,
-                  transplants: ticket.itineraries[0].segments.length - 1,
+                  id: ticket?.id,
+                  company: ticket?.itineraries[0]?.segments[0]?.operating?.carrierCode,
+                  start: ticket?.itineraries[0]?.segments[0]?.departure?.at?.replace("T", " "),
+                  end: ticket?.itineraries[0]?.segments[
+                     ticket?.itineraries[0]?.segments?.length - 1
+                  ]?.arrival?.at?.replace("T", " "),
+                  duration: ticket?.itineraries[0]?.duration?.replace(/PT/g, ""),
+                  price: ticket?.price?.total,
+                  currency: ticket?.price?.currency,
+                  transplants: ticket?.itineraries[0]?.segments?.length - 1,
                })
             }
             return tickets
@@ -47,6 +46,29 @@ export const useStore = defineStore("tickets", {
             .get(basisUrl(out_city, in_city, date), { headers: { Authorization: token } })
             .then((result) => result.data.data)
          console.log(JSON.stringify(this.tickets[0], null, 3))
+      },
+      getTicketInfo(id) {
+         const ticket = this.tickets.find((ticket) => ticket.id == id)
+
+         return {
+            id: ticket?.id,
+            company: ticket?.itineraries[0]?.segments[0]?.operating?.carrierCode,
+            start: ticket?.itineraries[0]?.segments[0]?.departure?.at?.replace("T", " "),
+            end: ticket?.itineraries[0]?.segments[ticket?.itineraries[0]?.segments?.length - 1]?.arrival?.at?.replace(
+               "T",
+               " "
+            ),
+            duration: ticket?.itineraries[0]?.duration?.replace(/PT/g, ""),
+            price: ticket?.price?.total,
+            currency: ticket?.price?.currency,
+            transplants: ticket?.itineraries[0]?.segments?.length - 1,
+            seats: ticket?.numberOfBookableSeats,
+            fare: ticket?.pricingOptions?.fareType[0],
+            source: ticket?.source,
+            steps: ticket?.itineraries[0]?.segments?.map(
+               (step) => step?.departure?.at?.replace("T", " ") + "\n" + step?.arrival?.at?.replace("T", " ")
+            ),
+         }
       },
    },
 })

@@ -2,10 +2,11 @@
 import { defineEmits } from "vue"
 const emit = defineEmits(["clickshadow"])
 const { ticket } = defineProps(["ticket"])
+console.log(ticket)
 </script>
 
 <template>
-   <div class="ticket" @click="$emit('ticketclick', ticket)">
+   <div class="ticket">
       <p class="price">{{ ticket.price }} {{ ticket.currency }}</p>
       <p class="time-description">вылет</p>
       <p class="time">{{ ticket.start }}</p>
@@ -14,6 +15,11 @@ const { ticket } = defineProps(["ticket"])
       <p class="time_step">в пути {{ ticket.duration }}</p>
       <p class="company">компания {{ ticket.company }}</p>
       <p class="transplants">пересадок {{ ticket.transplants }}</p>
+      <p class="seats">мест осталось {{ ticket.seats }}</p>
+      <p class="fare">тариф обслуживания {{ ticket.fare }}</p>
+      <p class="source">билет взят из {{ ticket.source }}</p>
+      <p class="steps_description">этапы пути</p>
+      <p class="step" v-for="step in ticket.steps">{{ step }}</p>
    </div>
    <div class="shadow" @click="$emit('clickshadow')"></div>
 </template>
@@ -28,6 +34,38 @@ const { ticket } = defineProps(["ticket"])
    right: 0px;
    background: black;
    opacity: 0.25;
+}
+.steps_description {
+   margin: 0px;
+   position: relative;
+   left: 2px;
+   margin-top: 25px;
+}
+.step {
+   white-space: pre-wrap;
+   margin: 0px;
+   position: relative;
+   left: 2px;
+   margin-top: 5px;
+   margin-bottom: 15px;
+}
+.source {
+   margin: 0px;
+   position: relative;
+   left: 2px;
+   margin-top: 5px;
+}
+.fare {
+   margin: 0px;
+   position: relative;
+   left: 2px;
+   margin-top: 5px;
+}
+.seats {
+   margin: 0px;
+   position: relative;
+   left: 2px;
+   margin-top: 25px;
 }
 
 .transplants {
@@ -73,16 +111,17 @@ const { ticket } = defineProps(["ticket"])
    cursor: pointer;
    padding-left: 5px;
    width: 300px;
-   height: 302px;
+   min-height: 302px;
    flex-shrink: 0;
    border: 1px solid black;
    background-color: white;
-   margin: 5px;
 
    position: fixed;
    z-index: 3;
    left: 50%;
    top: 50px;
    transform: translate(-50%, 0%);
+
+   padding-bottom: 15px;
 }
 </style>

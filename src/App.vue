@@ -13,7 +13,8 @@ const store = useStore()
 const sorting = ref(null)
 const filter = ref(999)
 const tickets = computed(() => store.tickets_light(sorting.value, filter.value))
-const ticketForShow = ref(null)
+const ticketForShowId = ref(null)
+const ticketForShow = computed(() => store.getTicketInfo(ticketForShowId.value))
 </script>
 
 <template>
@@ -28,7 +29,7 @@ const ticketForShow = ref(null)
          <Ticket
             @ticketclick="
                (ticket) => {
-                  ticketForShow = ticket
+                  ticketForShowId = ticket.id
                   showHover = !showHover
                }
             "
