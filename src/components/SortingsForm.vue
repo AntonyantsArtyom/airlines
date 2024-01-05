@@ -13,7 +13,7 @@ const type = ref(null)
 
 <style scoped>
 .sortings {
-   padding: 5px 0px;
+   padding: 10px 0px;
    display: grid;
    width: 200px;
 }
@@ -21,6 +21,6 @@ const type = ref(null)
    height: 45px;
 }
 .active {
-   background: #80a6ff;
+   background: #e8f0fe;
 }
 </style>

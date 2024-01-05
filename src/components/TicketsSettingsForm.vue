@@ -5,9 +5,9 @@ const options = reactive({ out_city: null, in_city: null, date: null })
 
 <template>
    <form class="ticketsSettingsForm" @submit.prevent="$emit('finish', options)">
-      <p>город отправки (iata-код)</p>
+      <p>город отправки<br />(iata-код)</p>
       <input name="out" v-model="options.out_city" />
-      <p>город прибытия (iata-код)</p>
+      <p>город прибытия<br />(iata-код)</p>
       <input name="in" v-model="options.in_city" />
       <p>дата отправки</p>
       <input type="date" name="date" v-model="options.date" />

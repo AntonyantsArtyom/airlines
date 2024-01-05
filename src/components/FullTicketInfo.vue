@@ -1,4 +1,6 @@
 <script setup>
+import { defineEmits } from "vue"
+const emit = defineEmits(["clickshadow"])
 const { ticket } = defineProps(["ticket"])
 </script>
 
@@ -13,9 +15,21 @@ const { ticket } = defineProps(["ticket"])
       <p class="company">компания {{ ticket.company }}</p>
       <p class="transplants">пересадок {{ ticket.transplants }}</p>
    </div>
+   <div class="shadow" @click="$emit('clickshadow')"></div>
 </template>
 
 <style scoped>
+.shadow {
+   z-index: 2;
+   position: fixed;
+   top: 0px;
+   bottom: 0px;
+   left: 0px;
+   right: 0px;
+   background: black;
+   opacity: 0.25;
+}
+
 .transplants {
    margin: 0px;
    position: relative;
@@ -62,6 +76,13 @@ const { ticket } = defineProps(["ticket"])
    height: 302px;
    flex-shrink: 0;
    border: 1px solid black;
+   background-color: white;
    margin: 5px;
+
+   position: fixed;
+   z-index: 3;
+   left: 50%;
+   top: 50px;
+   transform: translate(-50%, 0%);
 }
 </style>
