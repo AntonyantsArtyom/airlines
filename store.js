@@ -8,6 +8,7 @@ import axios from "axios"
 const basisUrl = (out_city_iata, in_city_iata, date) =>
    `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${out_city_iata}&` +
    `destinationLocationCode=${in_city_iata}&departureDate=${date}&adults=1`
+
 const basisIataUrl = (out_city, in_city) =>
    `https://www.travelpayouts.com/widgets_suggest_params?q=из ${out_city} в ${in_city}`
 
