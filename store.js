@@ -1,10 +1,15 @@
+//curl "https://test.api.amadeus.com/v1/security/oauth2/token" \ -H "Content-Type: application/x-www-form-urlencoded" \ -d "grant_type=client_credentials&client_id=sTAkmqrvylnjHOzmmeA1Fk8aAkH8P9Vu&client_secret=vFVwJaVTxfJ7uLpU"
+//выше консольная команда обновления токена - из ответа взять поле access_token и вставить после Bearer
+const token = "Bearer ztxoJovVYeWTRgHMcwrrfudI8tHR"
+
 import { defineStore } from "pinia"
 import axios from "axios"
 
-const basisUrl = (out_city, in_city, date) =>
-   `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${out_city}&` +
-   `destinationLocationCode=${in_city}&departureDate=${date}&adults=1`
-const token = "Bearer huDMWO04fcHsAIeQvYxHMg84q9XU"
+const basisUrl = (out_city_iata, in_city_iata, date) =>
+   `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${out_city_iata}&` +
+   `destinationLocationCode=${in_city_iata}&departureDate=${date}&adults=1`
+const basisIataUrl = (out_city, in_city) =>
+   `https://www.travelpayouts.com/widgets_suggest_params?q=из ${out_city} в ${in_city}`
 
 export const useStore = defineStore("tickets", {
    state: () => ({
@@ -40,11 +45,15 @@ export const useStore = defineStore("tickets", {
    },
    actions: {
       async getTickets({ out_city, in_city, date }) {
-         console.log(out_city, in_city, date)
+         const citiesIata = await axios.get(basisIataUrl(out_city, in_city)).then((data) => data.data)
+         console.log(basisUrl(citiesIata.origin.iata, citiesIata.destination.iata, date))
          this.tickets = []
          this.tickets = await axios
-            .get(basisUrl(out_city, in_city, date), { headers: { Authorization: token } })
+            .get(basisUrl(citiesIata.origin.iata, citiesIata.destination.iata, date), {
+               headers: { Authorization: token },
+            })
             .then((result) => result.data.data)
+
          console.log(JSON.stringify(this.tickets[0], null, 3))
       },
       getTicketInfo(id) {

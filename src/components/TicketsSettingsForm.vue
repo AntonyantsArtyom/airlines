@@ -18,6 +18,7 @@ const options = reactive({ out_city: null, in_city: null, date: null })
 <style scoped>
 .ticketsSettingsForm {
    border: 1px solid black;
+   background: white;
    padding: 5px;
    display: grid;
    width: 200px;

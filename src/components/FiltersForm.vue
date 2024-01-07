@@ -25,5 +25,6 @@
 .filters {
    width: 200px;
    border: 1px solid black;
+   background: white;
 }
 </style>

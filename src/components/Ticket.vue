@@ -64,4 +64,9 @@ const { ticket } = defineProps(["ticket"])
    border: 1px solid black;
    margin: 5px;
 }
+@media (max-width: 560px) {
+   .ticket {
+      width: 250px;
+   }
+}
 </style>
